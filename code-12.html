@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sehat Bersama Ibu - Aplikasi Kesehatan Interaktif</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --color-primary-blue: #ADD8E6;
+    --color-primary-green: #98FB98;
+    --color-accent-peach: #FFDAB9;
+    --color-accent-yellow: #FFFACD;
+    --color-text-dark: #1A2B3C;
+    --color-text-muted: #6b7280;
+    --color-background: #ffffff;
+
+    --radius: 0.75rem;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+
+    --font-headline: 'Poppins', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+
+    --transition-fast: 0.3s ease;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    font-family: var(--font-body);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 2rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--color-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 1.5rem;
+    user-select: none;
+    z-index: 50;
+  }
+  nav.top-nav {
+    display: flex;
+    gap: 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    align-items: center;
+  }
+  nav.top-nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    cursor: pointer;
+  }
+  nav.top-nav a:hover,
+  nav.top-nav a:focus {
+    color: var(--color-primary-blue);
+    outline: none;
+  }
+
+  /* Hero Section */
+  section.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  section.hero h1 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 4rem;
+    color: var(--color-text-dark);
+    line-height: 1.1;
+  }
+  section.hero p {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  section.hero button.cta {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: var(--color-text-dark);
+    color: white;
+    border-radius: var(--radius);
+    border: none;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px var(--shadow-medium);
+    transition: background-color var(--transition-fast), transform 0.2s ease;
+    margin: 2rem auto 0 auto;
+    display: block;
+  }
+  section.hero button.cta:hover,
+  section.hero button.cta:focus {
+    background-color: #222;
+    transform: scale(1.05);
+    outline: none;
+  }
+
+  /* Onboarding Slides */
+  section.onboarding {
+    background: var(--color-background);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px var(--shadow-light);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    user-select: none;
+  }
+  .onboard-card {
+    background: #f9fafd;
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    transition: box-shadow var(--transition-fast);
+  }
+  .onboard-card:hover, .onboard-card:focus {
+    box-shadow: 0 6px 16px var(--shadow-medium);
+    outline: none;
+  }
+  .onboard-illustration {
+    width: 120px;
+    height: 120px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+    font-family: var(--font-headline);
+  }
+  .onboard-illustration.blue { background: var(--color-primary-blue); }
+  .onboard-illustration.green { background: var(--color-primary-green); }
+  .onboard-illustration.peach {
+    background: var(--color-accent-peach);
+    color: var(--color-text-dark);
+  }
+  .onboard-title {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+  }
+  .onboard-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  /* Login/Register */
+  section.login {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px var(--shadow-light);
+    user-select: none;
+  }
+  section.login h2 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-dark);
+  }
+  form.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  label {
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    user-select: none;
+  }
+  input, select {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    border: 1px solid #ccc;
+    outline-offset: 2px;
+    transition: border-color var(--transition-fast);
+  }
+  input:focus, select:focus {
+    border-color: var(--color-primary-blue);
+    box-shadow: 0 0 8px var(--color-primary-blue);
+    outline: none;
+  }
+  button.login-submit {
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: var(--color-primary-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform 0.2s ease;
+  }
+  button.login-submit:hover,
+  button.login-submit:focus {
+    background-color: #92c9e8;
+    transform: scale(1.03);
+    outline: none;
+  }
+  .login-footer {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    user-select: none;
+  }
+  .login-footer a {
+    color: var(--color-accent-peach);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .login-footer a:hover,
+  .login-footer a:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+
+  /* Dashboard */
+  section.dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem 4rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 2rem;
+    user-select: none;
+  }
+  .card {
+    background: var(--color-background);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform var(--transition-fast);
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: scale(1.02);
+    outline: none;
+  }
+  .card h3 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-text-dark);
+    margin: 0;
+  }
+  .card p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .card button {
+    align-self: flex-start;
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: var(--color-accent-peach);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    color: var(--color-text-dark);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform 0.2s ease;
+  }
+  .card button:hover,
+  .card button:focus {
+    background: #ffcca8;
+    transform: scale(1.03);
+    outline: none;
+  }
+
+  /* Bottom Navigation Bar */
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1200px;
+    background: var(--color-background);
+    box-shadow: 0 -2px 8px var(--shadow-light);
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem 0;
+    user-select: none;
+    z-index: 100;
+  }
+  nav.bottom-nav button {
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    transition: color var(--transition-fast);
+  }
+  nav.bottom-nav button svg {
+    stroke: var(--color-text-muted);
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.8;
+    fill: none;
+    transition: stroke var(--transition-fast);
+  }
+  nav.bottom-nav button:hover,
+  nav.bottom-nav button.active {
+    color: var(--color-primary-blue);
+  }
+  nav.bottom-nav button.active svg {
+    stroke: var(--color-primary-blue);
+    stroke-width: 2.5;
+  }
+
+  /* Icons (simple line icons) */
+  .icon {
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Responsive - stack onboarding */
+  @media (max-width: 900px) {
+    section.onboarding {
+      grid-template-columns: 1fr !important;
+      gap: 2.5rem;
+    }
+    section.hero h1 {
+      font-size: 3rem;
+    }
+  }
+
+  /* Additional styling for Edukasi interactivity */
+  .education .cards {
+    cursor: pointer;
+  }
+  .education-detail {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f9fafd;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 15px var(--shadow-light);
+    color: var(--color-text-dark);
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  /* Deteksi Dini updated style with checklist */
+  #deteksi {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #f9fafb;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px var(--shadow-light);
+    padding: 2.5rem 3rem;
+    user-select: none;
+    color: var(--color-text-dark);
+    font-family: var(--font-body);
+  }
+  #deteksi h2 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    user-select: none;
+    color: var(--color-text-dark);
+  }
+  #deteksi p.description {
+    font-weight: 400;
+    font-size: 1.125rem;
+    margin: 0 0 2rem 0;
+    color: var(--color-text-muted);
+    user-select: none;
+  }
+  #deteksi form {
+    display: grid;
+    row-gap: 1.3rem;
+  }
+  #deteksi .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  #deteksi label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    color: var(--color-text-dark);
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius);
+    background: white;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  #deteksi label:hover,
+  #deteksi label:focus-within {
+    background-color: var(--color-primary-blue);
+    color: white;
+    box-shadow: 0 4px 12px rgba(173, 216, 230, 0.7);
+    outline: none;
+  }
+  #deteksi input[type="checkbox"] {
+    accent-color: var(--color-primary-blue);
+    width: 1.3rem;
+    height: 1.3rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    border-radius: 0.25rem;
+  }
+  #deteksi input[type="checkbox"]:hover {
+    transform: scale(1.1);
+  }
+  #deteksi input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-primary-blue);
+    outline-offset: 2px;
+  }
+  #symptom-check-btn {
+    margin-top: 1.5rem;
+    width: max-content;
+    background: var(--color-primary-blue);
+    color: white;
+    border: none;
+    padding: 0.85rem 2.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(173, 216, 230, 0.7);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    user-select: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #symptom-check-btn:hover,
+  #symptom-check-btn:focus {
+    background: #92c9e8;
+    transform: scale(1.05);
+    outline: none;
+  }
+  #symptom-result {
+    margin-top: 2rem;
+    min-height: 3em;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-primary-blue);
+    text-align: center;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  #symptom-result.warning {
+    color: #d14343;
+  }
+  #symptom-result.safe {
+    color: var(--color-primary-blue);
+  }
+
+  @media (max-width: 900px) {
+    #deteksi {
+      padding: 2rem 1.5rem;
+    }
+    #deteksi h2 {
+      font-size: 2rem;
+    }
+  }
+  @media (max-width: 480px) {
+    #symptom-check-btn {
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header aria-label="Navigasi utama">
+    <div>Sehat Bersama Ibu</div>
+    <nav class="top-nav" aria-label="Menu Navigasi">
+      <a href="#beranda" class="nav-link">Beranda</a>
+      <a href="#jurnal" class="nav-link">Jurnal</a>
+      <a href="#edukasi" class="nav-link">Edukasi</a>
+      <a href="#dukungan" class="nav-link">Dukungan</a>
+      <a href="#profil" class="nav-link">Profil</a>
+    </nav>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Hero Section / Splash Screen -->
+    <section class="hero" id="beranda" aria-label="Halaman beranda" tabindex="-1">
+      <h1>Sehat Bersama Ibu</h1>
+      <p>Sahabat Sehat Ibu dan Calon Ibu</p>
+      <button class="cta" aria-label="Mulai menggunakan aplikasi">Mulai Sekarang</button>
+    </section>
+
+    <!-- Dashboard / Beranda -->
+    <section class="dashboard" id="dashboard" aria-label="Dashboard pengguna" tabindex="-1" hidden>
+      <header style="display:flex; align-items:center; justify-content: space-between; margin-bottom:2rem;">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div aria-label="Foto profil pengguna" role="img" tabindex="0" style="width:48px; height:48px; border-radius:50%; background: var(--color-primary-green); display:flex; justify-content:center; align-items:center; font-weight:700; color:#fff; font-family: var(--font-headline); user-select:none;">S</div>
+          <div style="font-family: var(--font-headline); font-weight:700; font-size:1.25rem; color: var(--color-text-dark);">Halo, Bunda Sarah!</div>
+        </div>
+        <button aria-label="Notifikasi" style="background:transparent; border:none; color: var(--color-text-muted); cursor:pointer; font-size:1.5rem;">🔔</button>
+      </header>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap:2rem;">
+        <article class="card" aria-label="Informasi kesehatan terkini" tabindex="0">
+          <h3>Kesehatan Terkini</h3>
+          <p>Tekanan Darah Terakhir: 120/80 mmHg</p>
+          <p>Usia Kehamilan: 25 Minggu</p>
+          <button>Catat Sekarang</button>
+        </article>
+        <article class="card" aria-label="Tips harian" tabindex="0">
+          <h3>Tips Harian</h3>
+          <p>Tahukah kamu? Asupan Kalsium bisa bantu cegah preeklampsia! Pelajari lebih lanjut.</p>
+          <button>Baca Selengkapnya</button>
+        </article>
+        <article class="card" aria-label="Akses cepat fitur utama" tabindex="0">
+          <h3>Akses Cepat</h3>
+          <div style="display:flex; gap:1.5rem; flex-wrap: wrap; margin-top:1rem;">
+            <button aria-label="Edukasi" class="edu-feature-btn" data-feature="pencegahan" style="flex:1 1 80px; background: var(--color-primary-blue); color: white; border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">📚 Pencegahan</button>
+            <button aria-label="Deteksi Dini" class="edu-feature-btn" data-feature="deteksi-dini" style="flex:1 1 80px; background: var(--color-primary-green); color: white; border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">🩺 Deteksi Dini</button>
+            <button aria-label="Tanda & Gejala" class="edu-feature-btn" data-feature="tanda-gejala" style="flex:1 1 80px; background: var(--color-accent-peach); color: var(--color-text-dark); border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">⚠️ Tanda &amp; Gejala</button>
+            <button aria-label="Nutrisi" class="edu-feature-btn" data-feature="nutrisi" style="flex:1 1 80px; background: var(--color-accent-yellow); color: var(--color-text-dark); border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">🥗 Nutrisi</button>
+            <button aria-label="Olahraga" class="edu-feature-btn" data-feature="olahraga" style="flex:1 1 80px; background: var(--color-primary-blue); color: white; border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">🏃‍♀️ Olahraga</button>
+            <button aria-label="Kelola Stres" class="edu-feature-btn" data-feature="kelola-stres" style="flex:1 1 80px; background: var(--color-primary-green); color: white; border:none; border-radius: var(--radius); padding:0.75rem; font-weight:700; cursor:pointer;">🧘 Kelola Stres</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Edukasi -->
+    <section class="education" id="edukasi" aria-label="Pusat edukasi aplikasi" tabindex="-1" hidden>
+      <h2>Pusat Edukasi</h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 1.5rem; margin-top: 2rem;">
+        <div class="card edu-card" tabindex="0" role="button" data-feature="pencegahan" aria-label="Kategori Pencegahan">Pencegahan</div>
+        <div class="card edu-card" tabindex="0" role="button" data-feature="deteksi-dini" aria-label="Kategori Deteksi Dini">Deteksi Dini</div>
+        <div class="card edu-card" tabindex="0" role="button" data-feature="tanda-gejala" aria-label="Kategori Tanda &amp; Gejala">Tanda &amp; Gejala</div>
+        <div class="card edu-card" tabindex="0" role="button" data-feature="nutrisi" aria-label="Kategori Nutrisi">Nutrisi</div>
+        <div class="card edu-card" tabindex="0" role="button" data-feature="olahraga" aria-label="Kategori Olahraga">Olahraga</div>
+        <div class="card edu-card" tabindex="0" role="button" data-feature="kelola-stres" aria-label="Kategori Kelola Stres">Kelola Stres</div>
+      </div>
+
+      <div id="education-detail" class="education-detail" tabindex="0" aria-live="polite" aria-atomic="true">
+        <p>Pilih salah satu kategori edukasi di atas untuk melihat detail informasi.</p>
+      </div>
+    </section>
+
+    <!-- Deteksi Dini & Gejala -->
+    <section class="symptoms" id="deteksi" aria-label="Deteksi dini dan gejala preeklampsia" tabindex="-1" hidden>
+      <h2>Deteksi Dini Preeklampsia</h2>
+      <p class="description" id="instructions">
+        Pilih gejala yang Anda alami dari daftar di bawah ini, lalu klik tombol untuk melihat hasil deteksi dini.
+      </p>
+      <form id="symptom-checker" aria-describedby="instructions">
+        <div class="checkbox-group" role="group" aria-labelledby="instructions">
+          <label>
+            <input type="checkbox" name="symptom" value="high_bp" />
+            Tekanan darah tinggi (di atas 140/90 mmHg)
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="cloudy_urine" />
+            Air pipis keruh atau berwarna tidak biasa
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="severe_headache" />
+            Sakit kepala parah yang tak kunjung hilang
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="vision_problems" />
+            Gangguan penglihatan (penglihatan kabur atau bercak)
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="swelling" />
+            Pembengkakan tiba-tiba di tangan, wajah, atau kaki
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="abdominal_pain" />
+            Nyeri di perut bagian atas (terutama di sebelah kanan)
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="nausea_vomiting" />
+            Mual atau muntah berlebihan yang berlangsung terus-menerus
+          </label>
+          <label>
+            <input type="checkbox" name="symptom" value="sudden_weight_gain" />
+            Penambahan berat badan mendadak yang tidak biasa
+          </label>
+        </div>
+        <button type="button" id="symptom-check-btn" aria-live="polite" aria-describedby="instructions">
+          Cek Hasil Deteksi
+        </button>
+      </form>
+      <section aria-live="polite" aria-atomic="true" class="result-card" id="symptom-result" role="region" aria-label="Hasil deteksi dini">
+        Silakan pilih gejala dan klik tombol di atas untuk melihat hasil.
+      </section>
+    </section>
+
+    <!-- Jurnal Kesehatan -->
+    <section class="journal" id="jurnal" aria-label="Jurnal kesehatan pengguna" tabindex="-1" hidden style="max-width: 800px; margin: 0 auto;">
+      <h2>Jurnal Kesehatanmu</h2>
+      <nav style="margin-bottom: 1rem; display:flex; gap:1rem;">
+        <button class="tab active" type="button" data-tab="pressure" aria-selected="true" aria-controls="tab-pressure" tabindex="0" style="flex:1; padding:0.75rem; border-radius: var(--radius); border: 1px solid var(--color-primary-blue); background: var(--color-primary-blue); color: white; font-weight: 600; cursor:pointer;">Tekanan Darah</button>
+        <button class="tab" type="button" data-tab="weight" aria-selected="false" aria-controls="tab-weight" tabindex="-1" style="flex:1; padding:0.75rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Berat Badan</button>
+        <button class="tab" type="button" data-tab="nutrition" aria-selected="false" aria-controls="tab-nutrition" tabindex="-1" style="flex:1; padding:0.75rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Gizi</button>
+        <button class="tab" type="button" data-tab="activity" aria-selected="false" aria-controls="tab-activity" tabindex="-1" style="flex:1; padding:0.75rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Aktivitas</button>
+      </nav>
+      <section class="notes" id="tab-pressure" role="tabpanel" tabindex="0">
+        <article class="note" tabindex="0">
+          <time datetime="2024-06-28T08:00">28 Juni 2024, 08:00</time>
+          <p>Tekanan darah 110/70 mmHg, kondisi stabil.</p>
+        </article>
+        <article class="note" tabindex="0">
+          <time datetime="2024-06-27T08:00">27 Juni 2024, 08:00</time>
+          <p>Tekanan darah 115/75 mmHg, sedikit naik, tetap waspada.</p>
+        </article>
+      </section>
+      <section class="notes" id="tab-weight" role="tabpanel" tabindex="0" hidden>
+        <article class="note" tabindex="0">
+          <time datetime="2024-06-28">28 Juni 2024</time>
+          <p>Berat badan 62 kg.</p>
+        </article>
+      </section>
+      <section class="notes" id="tab-nutrition" role="tabpanel" tabindex="0" hidden>
+        <article class="note" tabindex="0">
+          <time datetime="2024-06-28">28 Juni 2024</time>
+          <p>Makan sayur setiap hari dan kurangi gula.</p>
+        </article>
+      </section>
+      <section class="notes" id="tab-activity" role="tabpanel" tabindex="0" hidden>
+        <article class="note" tabindex="0">
+          <time datetime="2024-06-27">27 Juni 2024</time>
+          <p>Jalan kaki 30 menit.</p>
+        </article>
+      </section>
+      <button style="margin-top: 1rem; background: var(--color-accent-peach); color: var(--color-text-dark); border:none; padding: 0.75rem 1.5rem; font-weight: 700; border-radius: var(--radius); cursor: pointer;">Tambah Catatan</button>
+    </section>
+
+    <!-- Dukungan -->
+    <section class="support" id="dukungan" aria-label="Bantuan dan dukungan medis" tabindex="-1" hidden style="max-width: 900px; margin: 0 auto; display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem;">
+      <div class="card" tabindex="0">
+        <h3>Cari Fasilitas Kesehatan Terdekat</h3>
+        <p>Temukan puskesmas, klinik, atau rumah sakit dengan mudah.</p>
+        <button style="padding:0.75rem 1.5rem; border-radius: var(--radius); background: var(--color-primary-blue);color:white; border:none; cursor:pointer;">Buka Peta</button>
+      </div>
+      <div class="card" tabindex="0">
+        <h3>Nomor Darurat</h3>
+        <p>Hubungi bantuan medis segera saat dibutuhkan.</p>
+        <button style="padding:0.75rem 1.5rem; border-radius: var(--radius); background: var(--color-accent-peach);color: var(--color-text-dark); border:none; cursor:pointer;">Hubungi Hotline 119</button>
+        <p style="margin-top: 1rem;">Bidan Komunitas: 0812-3456-7890</p>
+      </div>
+      <div class="card" tabindex="0">
+        <h3>Konseling Dokter Online</h3>
+        <p>Jadwalkan sesi chat atau video call dengan dokter terpercaya.</p>
+        <button style="padding:0.75rem 1.5rem; border-radius: var(--radius); background: var(--color-primary-green);color:white; border:none; cursor:pointer;">Lihat Jadwal &amp; Buat Janji</button>
+      </div>
+    </section>
+
+    <!-- Profil Pengguna -->
+    <section class="profile" id="profil" aria-label="Profil pengguna" tabindex="-1" hidden style="max-width: 600px; margin: 0 auto; min-height: 350px;">
+      <h2>Profilku</h2>
+      <div style="display:flex; align-items:center; gap: 2rem; margin:2rem 0;">
+        <div style="width:120px; height:120px; border-radius:50%; background: var(--color-primary-green); color:white; font-weight:700; font-family: var(--font-headline); display:flex; justify-content:center; align-items:center; font-size: 3rem; user-select:none;">S</div>
+        <div>
+          <p><strong>Nama:</strong> Sarah</p>
+          <p><strong>Email:</strong> sarah@example.com</p>
+          <p><strong>Status:</strong> Ibu Hamil</p>
+          <p><strong>Usia Kehamilan:</strong> 25 Minggu</p>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction: column; gap: 1rem;">
+        <button style="padding:1rem; border-radius: var(--radius); border:none; background: var(--color-primary-blue); color: white; font-weight: 700; cursor:pointer;">Edit Profil</button>
+        <button style="padding:1rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Pengaturan Notifikasi</button>
+        <button style="padding:1rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Bahasa</button>
+        <button style="padding:1rem; border-radius: var(--radius); border: 1px solid var(--color-text-muted); background: transparent; color: var(--color-text-muted); font-weight: 600; cursor:pointer;">Tentang Aplikasi</button>
+        <button style="padding:1rem; border-radius: var(--radius); border: none; background: #ef4444; color: white; font-weight: 700; cursor:pointer;">Keluar</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" aria-label="Navigasi aplikasi utama">
+    <button aria-label="Beranda" class="active" type="button" data-target="beranda" tabindex="0">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-6h-4v6H4a1 1 0 01-1-1z"></path></svg>
+      Beranda
+    </button>
+    <button aria-label="Jurnal" type="button" data-target="jurnal" tabindex="-1">
+      <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><path d="M8 8h8M8 12h8M8 16h4"></path></svg>
+      Jurnal
+    </button>
+    <button aria-label="Edukasi" type="button" data-target="edukasi" tabindex="-1">
+      <svg class="icon" viewBox="0 0 24 24"><polygon points="12 3 2 7 12 11 22 7 12 3"></polygon><polyline points="2 17 12 21 22 17"></polyline><polyline points="2 12 12 16 22 12"></polyline></svg>
+      Edukasi
+    </button>
+    <button aria-label="Dukungan" type="button" data-target="dukungan" tabindex="-1">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l7 7-7 7-7-7z"></path><path d="M5 22h14"></path></svg>
+      Dukungan
+    </button>
+    <button aria-label="Profil" type="button" data-target="profil" tabindex="-1">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a7 7 0 0113 0"></path></svg>
+      Profil
+    </button>
+  </nav>
+
+<script>
+  // Navigation: Show/hide sections
+  const sections = document.querySelectorAll('main > section');
+  const navButtons = document.querySelectorAll('nav.bottom-nav button');
+
+  function showSection(id) {
+    sections.forEach(section => {
+      const isActive = section.id === id;
+      section.hidden = !isActive;
+      section.setAttribute('tabindex', isActive ? '0' : '-1');
+      if(isActive) section.focus();
+    });
+    navButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.target === id);
+      btn.setAttribute('tabindex', btn.dataset.target === id ? '0' : '-1');
+    });
+  }
+
+  navButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      if(button.dataset.target) {
+        showSection(button.dataset.target);
+      }
+    });
+  });
+
+  // Show dashboard when start clicked
+  document.querySelector('section.hero button.cta').addEventListener('click', () => {
+    showSection('dashboard');
+  });
+
+  // Education Feature Cards click to show detail content
+  const eduCards = document.querySelectorAll('.edu-card, .edu-feature-btn');
+  const eduDetail = document.getElementById('education-detail');
+
+  // Education content for each category
+  const eduContent = {
+    'pencegahan': `
+      <h3>Pencegahan Preeklampsia</h3>
+      <p>Menjaga pola makan sehat, rutin memeriksa tekanan darah, dan kontrol kehamilan teratur.</p>
+      <ul>
+        <li>Asupan kalsium dan vitamin yang cukup</li>
+        <li>Hindari stres berlebih</li>
+        <li>Pantau berat badan secara rutin</li>
+      </ul>
+    `,
+    'deteksi-dini': `
+      <h3>Deteksi Dini Preeklampsia</h3>
+      <p>Pemantauan tanda-tanda awal penting untuk mendapatkan penanganan yang cepat.</p>
+      <ul>
+        <li>Periksa tekanan darah secara rutin</li>
+        <li>Perhatikan gejala seperti sakit kepala hebat dan pembengkakan</li>
+        <li>Segera konsultasi dengan tenaga medis jika ada keluhan</li>
+      </ul>
+    `,
+    'tanda-gejala': `
+      <h3>Tanda &amp; Gejala Preeklampsia</h3>
+      <p>Kenali beberapa tanda umum berikut:</p>
+      <ul>
+        <li>Sakit kepala parah</li>
+        <li>Pembengkakan tiba-tiba di tangan atau wajah</li>
+        <li>Penglihatan kabur atau bercak-bercak</li>
+        <li>Tekanan darah tinggi yang tidak normal</li>
+      </ul>
+    `,
+    'nutrisi': `
+      <h3>Nutrisi Seimbang</h3>
+      <p>Pemenuhan gizi sangat penting untuk ibu hamil dan pertumbuhan janin.</p>
+      <ul>
+        <li>Konsumsi sayur dan buah segar setiap hari</li>
+        <li>Batasi konsumsi gula dan garam berlebih</li>
+        <li>Penuhi kebutuhan protein dan serat</li>
+      </ul>
+    `,
+    'olahraga': `
+      <h3>Olahraga Aman</h3>
+      <p>Olahraga ringan bisa membantu menjaga kebugaran selama kehamilan.</p>
+      <ul>
+        <li>Jalan kaki minimal 30 menit setiap hari</li>
+        <li>Senam hamil dengan pengawasan instruktur</li>
+        <li>Hindari olahraga berat tanpa konsultasi dokter</li>
+      </ul>
+    `,
+    'kelola-stres': `
+      <h3>Kelola Stres</h3>
+      <p>Mengelola stres membantu menjaga kesehatan fisik dan mental.</p>
+      <ul>
+        <li>Lakukan relaksasi dan meditasi</li>
+        <li>Berbagi cerita dengan keluarga atau teman</li>
+        <li>Cari waktu untuk hobi dan istirahat yang cukup</li>
+      </ul>
+    `
+  };
+
+  eduCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const feature = card.dataset.feature;
+      if (feature && eduContent[feature]) {
+        eduDetail.innerHTML = eduContent[feature];
+        if(!document.getElementById('edukasi').hidden) return;
+        showSection('edukasi');
+      }
+    });
+    card.addEventListener('keypress', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Deteksi Dini symptom checker logic
+  const checkBtn = document.getElementById('symptom-check-btn');
+  const symptomResult = document.getElementById('symptom-result');
+  checkBtn.addEventListener('click', () => {
+    const checked = Array.from(document.querySelectorAll('#symptom-checker input[name="symptom"]:checked')).map(cb => cb.value);
+    if(checked.length === 0) {
+      symptomResult.textContent = "Tolong pilih gejala yang Anda alami untuk pemeriksaan.";
+      symptomResult.classList.remove('warning', 'safe');
+      symptomResult.style.color = "var(--color-text-muted)";
+      return;
+    }
+    const severeSymptoms = ['high_bp', 'cloudy_urine', 'severe_headache', 'vision_problems', 'abdominal_pain'];
+    const hasSevere = checked.some(s => severeSymptoms.includes(s));
+    if (hasSevere) {
+      symptomResult.textContent = "⚠️ Gejala serius terdeteksi! Segera hubungi dokter atau fasilitas kesehatan untuk penanganan lebih lanjut.";
+      symptomResult.classList.add('warning');
+      symptomResult.classList.remove('safe');
+    } else {
+      symptomResult.textContent = "✔️ Beberapa gejala ringan terdeteksi. Disarankan untuk istirahat, tetap pantau kondisi, dan konsultasi ke tenaga medis jika gejala bertambah.";
+      symptomResult.classList.add('safe');
+      symptomResult.classList.remove('warning');
+    }
+  });
+
+  // Jurnal tab switching
+  const tabs = document.querySelectorAll('.journal nav button.tab');
+  const tabPanels = document.querySelectorAll('.journal section.notes');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+
+      tabPanels.forEach(panel => {
+        if(panel.id === 'tab-' + tab.dataset.tab) {
+          panel.hidden = false;
+          panel.setAttribute('tabindex', '0');
+        } else {
+          panel.hidden = true;
+          panel.setAttribute('tabindex', '-1');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
+
